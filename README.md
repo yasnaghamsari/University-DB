@@ -15,7 +15,6 @@ with `ISA` (supertype/subtype) hierarchies for employees and menu items.
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Sample Queries](#sample-queries)
-- [Design Notes](#design-notes)
 
 ## Entity-Relationship Diagram
 
@@ -188,22 +187,3 @@ A few things you can ask the database once it's loaded (see
 - Customers ranked by total spend
 - Menu items that have never been ordered
 - Full order history for a given customer (`dbo.usp_GetCustomerOrderHistory`)
-
-## Design Notes
-
-This schema evolved from an earlier coursework version. Notable changes:
-
-- **Added `OrderItem`.** The original model recorded an order's total price
-  but never which menu items were actually in it. `OrderItem` (`OrderId`,
-  `ItemId`, `Quantity`) closes that gap and is what makes "best-selling item"
-  or "order contents" queries possible.
-- **Added missing foreign keys on `OrderCustomer`.** It previously had no
-  referential integrity to `Orders` or `Customer` at all, and the sample data
-  referenced customer IDs that didn't exist. Both are fixed.
-- **Indexed every foreign key** that wasn't already covered by a primary key,
-  and added `CHECK` constraints on prices/quantities that were missing them.
-- **ISA hierarchies** (`Employee` → `Manager`/`Chef`/`Waiter`, `RestaurantItem`
-  → `Food`/`Beverage`) are modeled as one-to-one sub-type tables sharing the
-  parent's primary key and cascading on delete, exposed through
-  `vw_EmployeeDirectory` and `vw_MenuItem` so callers don't need to know the
-  underlying hierarchy.
