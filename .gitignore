@@ -1,0 +1,17 @@
+# SQL Server backups / data files
+*.bak
+*.mdf
+*.ldf
+*.ndf
+
+# SSMS / Visual Studio SQL project noise
+*.suo
+*.user
+bin/
+obj/
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
